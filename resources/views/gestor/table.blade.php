@@ -1,10 +1,10 @@
-<?php if ( $table->getData() ) : ?>
+<?php if ( $table->getData()->count() ) : ?>
 
    <table class="table table-hover">
       <thead>
          <tr>
             <?php foreach($table->getColumns() as $column) : ?>
-               <th><?= $column['name'] ?></th>
+               <th><?= ucwords($column['name']) ?></th>
             <?php endforeach; ?>
             <?php if ($table->getActions()) : ?>
                <th width="<?= count($table->getActions())*50 ?>px"></th>
@@ -62,13 +62,13 @@ $end = $table->getData()->currentPage()+$padding < $table->getData()->lastPage()
 
       <?php if ( $table->getData()->currentPage() > 1 ) : ?>
          <li>
-            <a href="<?= route(\Request::route()->getName(), ['page' => 1]) ?>">
+            <a href="<?= route(\Request::route()->getName(), ['page' => 1, 's' => Request::input('s')]) ?>">
                <i class="fa fa-angle-double-left"></i>
             </a>
          </li>
 
          <li>
-            <a href="<?= route(\Request::route()->getName(), ['page' => $table->getData()->currentPage()-1]) ?>">
+            <a href="<?= route(\Request::route()->getName(), ['page' => $table->getData()->currentPage()-1, 's' => Request::input('s')]) ?>">
                <i class="fa fa-angle-left"></i>
             </a>
          </li>
@@ -85,20 +85,20 @@ $end = $table->getData()->currentPage()+$padding < $table->getData()->lastPage()
 
       <?php foreach (range($start, $end) as $page) : ?>
          <li class="<?= $table->getData()->currentPage() == $page ? 'active' : null; ?>">
-            <a href="<?= route(\Request::route()->getName(), ['page' => $page]) ?>"><?= $page ?></a>
+            <a href="<?= route(\Request::route()->getName(), ['page' => $page, 's' => Request::input('s')]) ?>"><?= $page ?></a>
          </li>
       <?php endforeach; ?>
 
 
       <?php if ( $table->getData()->currentPage() < $table->getData()->lastPage() ) : ?>
          <li>
-            <a href="<?= route(\Request::route()->getName(), ['page' => $table->getData()->currentPage()+1]) ?>">
+            <a href="<?= route(\Request::route()->getName(), ['page' => $table->getData()->currentPage()+1, 's' => Request::input('s')]) ?>">
                <i class="fa fa-angle-right"></i>
             </a>
          </li>
 
          <li>
-            <a href="<?= route(\Request::route()->getName(), ['page' => $table->getData()->lastPage()]) ?>">
+            <a href="<?= route(\Request::route()->getName(), ['page' => $table->getData()->lastPage(), 's' => Request::input('s')]) ?>">
                <i class="fa fa-angle-double-right"></i>
             </a>
          </li>
@@ -114,5 +114,5 @@ $end = $table->getData()->currentPage()+$padding < $table->getData()->lastPage()
 <?php endif; ?>
 
 <?php else : ?>
-   <p>Ops, nenhum data cadastrado.</p>
+   <div class="alert alert-warning">Ops, não conseguimos encontrar nenhum registro.</div>
 <?php endif; ?>

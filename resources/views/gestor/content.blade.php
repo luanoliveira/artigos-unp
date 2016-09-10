@@ -8,7 +8,7 @@
         <button type="button" class="close" data-dismiss="alert">
             <span>×</span>
         </button>
-        <?= Session::get('alert.success') ?> 
+        <?= Session::get('alert.success') ?>
     </div><!-- .aert -->
     <?php endif; ?>
 
@@ -17,10 +17,10 @@
         <button type="button" class="close" data-dismiss="alert">
             <span>×</span>
         </button>
-        <?= Session::get('alert.danger') ?> 
+        <?= Session::get('alert.danger') ?>
     </div><!-- .aert -->
     <?php endif; ?>
-   
+
     <?php if ( $Ui->getTitle() ) : ?>
     <div class="page-header">
         <h1>
@@ -33,7 +33,7 @@
     <?php endif; ?>
 
     <?php if ( $Ui->getPageActions() ) : ?>
-    <div class="text-right">
+    <div class="text-right" style="margin-bottom: 20px;">
         <?php foreach($Ui->getPageActions() as $action) : ?>
 
         <?php

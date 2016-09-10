@@ -14,6 +14,8 @@ class Table
 
    protected $Query;
 
+   protected $limit = 15;
+
    public function __construct($model, $callback=null)
    {
       $this->setModel($model);
@@ -30,7 +32,7 @@ class Table
       $this->data = $this
                         ->Query
                         ->orderBy('created_at', 'desc')
-                        ->paginate(15);
+                        ->paginate($this->limit);
 
       //$this->setData($data);
    }
