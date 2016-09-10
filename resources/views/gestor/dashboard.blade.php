@@ -5,7 +5,7 @@
          <div class="panel-heading">
             <h3 class="panel-title">
                <i class="fa fa-clock-o" aria-hidden="true"></i>
-               <span>Últimos posts</span>
+               <span>Últimos Posts</span>
             </h3>
          </div>
          <div class="panel-body">
@@ -18,6 +18,25 @@
                </a>
                <?php endforeach; ?>
             </ul>
+         </div>
+      </div>
+   </div><!-- .col-sm-6 -->
+
+   <div class="col-sm-6">
+      <div class="panel panel-default">
+         <div class="panel-heading">
+            <h3 class="panel-title">
+               <i class="fa fa-database" aria-hidden="true"></i>
+               <span>Api</span>
+            </h3>
+         </div>
+         <div class="panel-body">
+            <div class="form-group">
+               <input type="text" class="form-control" disabled value="<?= route('v1.posts') ?>">
+            </div>
+            <div class="form-group">
+               <input type="text" class="form-control" disabled value="<?= route('v1.tags') ?>">
+            </div>
          </div>
       </div>
    </div><!-- .col-sm-6 -->

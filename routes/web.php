@@ -33,7 +33,7 @@ Route::get('/gestor/posts/{post}/destroy', 'PostsController@destroy')->name('ges
 
 Route::get('/v1/posts', function () {
    return App\Post::with('tags')->paginate(15);
-});
+})->name('v1.posts');
 
 Route::get('/gestor/tags', 'TagsController@index')->name('gestor.tags');
 Route::post('/gestor/tags', 'TagsController@store')->name('gestor.tags.store');
@@ -44,7 +44,7 @@ Route::get('/gestor/tags/{tag}/destroy', 'TagsController@destroy')->name('gestor
 
 Route::get('/v1/tags', function () {
    return App\Tag::paginate();
-});
+})->name('v1.tags');
 
 Route::get('/gestor/users', 'UsersController@index')->name('gestor.users');
 Route::post('/gestor/users', 'UsersController@store')->name('gestor.users.store');
