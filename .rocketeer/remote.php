@@ -32,7 +32,8 @@ return [
    'shared'         => [
       'storage/logs',
       'storage/sessions',
-      '.env'
+      '.env',
+      'bootstrap/cache'
    ],
 
    // Execution
@@ -62,8 +63,7 @@ return [
       'files'    => [
          'app/database/production.sqlite',
          'storage',
-         'public',
-         'bootstrap/cache'
+         'public'
       ],
 
       // Here you can configure what actions will be executed to set
