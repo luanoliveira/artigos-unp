@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Hash;
 use App\Http\Requests;
 
 class UsersController extends GestorController
@@ -53,7 +53,7 @@ class UsersController extends GestorController
       $formulario->setAction(route('gestor.users.store'));
       $formulario->setActionBack(route('gestor.users'));
 
-      $name = new \App\Helper\Field\InputField('name', 'Título');
+      $name = new \App\Helper\Field\InputField('name', 'Nome');
       $name->setAttr('class', 'form-control');
 
       $formulario->setField($name);
@@ -63,6 +63,109 @@ class UsersController extends GestorController
 
       $formulario->setField($email);
 
+      $password = new \App\Helper\Field\PasswordField('password', 'Password');
+      $password->setAttr('class', 'form-control');
+
+      $formulario->setField($password);
+
+      $password_confirmation = new \App\Helper\Field\PasswordField('password_confirmation', 'Confirme Password');
+      $password_confirmation->setAttr('class', 'form-control');
+
+      $formulario->setField($password_confirmation);
+
       return $this->viewForm($formulario);
+   }
+
+   public function store(Request $request)
+   {
+      $validator = $this->validator($request);
+
+      if ($validator->fails()) {
+         return redirect(route('gestor.users.create'))
+            ->withErrors($validator)
+            ->withInput();
+      }
+
+      $user = new \App\User;
+      $user->name = $request->name;
+      $user->email = $request->email;
+      $user->password = Hash::make($request->password);
+      $user->save();
+
+      $request->session()->flash('alert.success', 'Usuário cadastrado com sucesso.');
+      return redirect()->route('gestor.users');
+   }
+
+   public function destroy(Request $request, $user)
+   {
+      $user = \App\User::find($user);
+
+      $user->delete();
+
+      $request->session()->flash('alert.success', 'Usuário deletado com sucesso.');
+      return redirect()->route('gestor.users');
+   }
+
+   public function edit(Request $request, $user)
+   {
+      $this->ui->setTitle('Editar Usuário');
+
+      $user = \App\User::find($user);
+
+      $formulario = new \App\Helper\Form;
+      $formulario->setAction(route('gestor.users.update', ['user' => $user]));
+      $formulario->setMethod('PUT');
+      $formulario->setActionBack(route('gestor.users'));
+
+      $name = new \App\Helper\Field\InputField('name', 'Nome', $user->name);
+      $name->setAttr('class', 'form-control');
+
+      $formulario->setField($name);
+
+      $email = new \App\Helper\Field\InputField('emaildisabled', 'E-mail', $user->email);
+      $email->setAttr('class', 'form-control');
+      $email->setAttr('disabled');
+
+      $formulario->setField($email);
+
+      return $this->viewForm($formulario);
+   }
+
+   public function update(Request $request, $user)
+   {
+      $validator = $this->validatorUpdate($request);
+
+      if ($validator->fails()) {
+         return redirect(route('gestor.users.edit', ['user' => $user]))
+            ->withErrors($validator)
+            ->withInput();
+      }
+
+      $user = \App\User::find($user);
+      $user->name = $request->name;
+      $user->save();
+
+      $request->session()->flash('alert.success', 'Usuário atualizado com sucesso.');
+      return redirect()->route('gestor.users');
+   }
+
+   protected function validator($request)
+   {
+      return \Validator::make($request->all(), [
+         'name' => 'required|min:3|max:32',
+         'email' => 'required|email|unique:users',
+         'password' => 'required|min:3|confirmed',
+         'password_confirmation' => 'required|min:3'
+      ]);
+   }
+
+   protected function validatorUpdate($request)
+   {
+      return \Validator::make($request->all(), [
+         'name' => 'required|min:3|max:32',
+         //'email' => 'required|email|unique:users',
+         //'password' => 'required|min:3|confirmed',
+         //'password_confirmation' => 'required|min:3'
+      ]);
    }
 }

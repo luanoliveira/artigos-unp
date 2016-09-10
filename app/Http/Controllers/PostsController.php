@@ -42,6 +42,10 @@ class PostsController extends GestorController
          return date_format(date_create($data->updated_at), 'd/m/Y H:i:s');
       });
 
+      $table->setAction('external-link', function($data) {
+         return '#';
+      }, ['class' => 'btn btn-primary']);
+
       $table->setAction('pencil-square-o', function($data) {
          return route('gestor.posts.edit', ['tag' => $data->id]);
       }, ['class' => 'btn btn-default']);

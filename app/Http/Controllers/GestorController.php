@@ -8,27 +8,27 @@ use App\Helper\Ui;
 
 class GestorController extends Controller
 {
-    protected $ui;
+   protected $ui;
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
+   /**
+   * Create a new controller instance.
+   *
+   * @return void
+   */
+   public function __construct()
+   {
+      $this->middleware('auth');
 
-        $this->ui = new Ui;
+      $this->ui = new Ui;
 
-        $this
-            ->ui
-            ->addMenu('gestor.dashboard', 'Dashboard', route('gestor.dashboard'))
-            ->addMenu('gestor.posts', 'Posts', route('gestor.posts'))
-            ->addMenu('gestor.tags', 'Tags', route('gestor.tags'))
-            ->addMenu('gestor.users', 'Usuários', route('gestor.users'));
+      $this
+      ->ui
+      ->addMenu('gestor.dashboard', 'Dashboard', route('gestor.dashboard'))
+      ->addMenu('gestor.posts', 'Posts', route('gestor.posts'))
+      ->addMenu('gestor.tags', 'Tags', route('gestor.tags'))
+      ->addMenu('gestor.users', 'Usuários', route('gestor.users'));
 
-    }
+   }
 
    public function view($view, array $data=[])
    {
