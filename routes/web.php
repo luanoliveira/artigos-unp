@@ -32,7 +32,7 @@ Route::put('/gestor/posts/{post}', 'PostsController@update')->name('gestor.posts
 Route::get('/gestor/posts/{post}/destroy', 'PostsController@destroy')->name('gestor.posts.destroy');
 
 Route::get('/v1/posts', function () {
-   return App\Post::paginate();
+   return App\Post::with('tags')->paginate(15);
 });
 
 Route::get('/gestor/tags', 'TagsController@index')->name('gestor.tags');
