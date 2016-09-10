@@ -41,12 +41,12 @@
       <?php endif; ?>
 
       <form class="navbar-form navbar-left">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-        <button type="submit" class="btn btn-default">
-           <i class="fa fa-search" aria-hidden="true"></i>
-        </button>
+         <div class="form-group">
+            <input type="text" class="form-control" placeholder="Buscar">
+         </div>
+         <button type="submit" class="btn btn-default">
+            <i class="fa fa-search" aria-hidden="true"></i>
+         </button>
       </form>
 
       <ul class="nav navbar-nav navbar-right">

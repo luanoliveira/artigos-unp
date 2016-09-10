@@ -102,6 +102,8 @@ class PostsController extends GestorController
       $post = new Post;
       $post->post_title = $request->post_title;
       $post->post_content = $request->post_content;
+      $post->user_created = \Auth::user()->id;
+      $post->user_updated = \Auth::user()->id;
       $post->save();
 
       if ( $request->post_tags )
@@ -167,6 +169,7 @@ class PostsController extends GestorController
       $post = Post::find($post);
       $post->post_title = $request->post_title;
       $post->post_content = $request->post_content;
+      $post->user_updated = \Auth::user()->id;
       $post->save();
 
       if ( $request->post_tags )

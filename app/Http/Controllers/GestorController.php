@@ -22,11 +22,11 @@ class GestorController extends Controller
       $this->ui = new Ui;
 
       $this
-      ->ui
-      ->addMenu('gestor.dashboard', 'Dashboard', route('gestor.dashboard'))
-      ->addMenu('gestor.posts', 'Posts', route('gestor.posts'))
-      ->addMenu('gestor.tags', 'Tags', route('gestor.tags'))
-      ->addMenu('gestor.users', 'Usuários', route('gestor.users'));
+         ->ui
+         ->addMenu('gestor.dashboard', 'Dashboard', route('gestor.dashboard'))
+         ->addMenu('gestor.posts', 'Posts', route('gestor.posts'))
+         ->addMenu('gestor.tags', 'Tags', route('gestor.tags'))
+         ->addMenu('gestor.users', 'Usuários', route('gestor.users'));
 
    }
 
@@ -58,7 +58,8 @@ class GestorController extends Controller
 
    public function dashboard()
    {
+      $data['posts'] = \App\Post::orderBy('created_at')->take(5)->get();
       $this->ui->setMenuActive('gestor.dashboard');
-      return $this->view('gestor.dashboard');
+      return $this->view('gestor.dashboard', $data);
    }
 }
