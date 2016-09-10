@@ -27,8 +27,8 @@ return [
       'deploy'  => [
          function($task) {
             $task->runForCurrentRelease(array(
-               'chmod -rf 777 storage',
-               'chmod -rf 777 bootstrap/cache'
+               'chmod -Rf 777 storage',
+               'chmod -Rf 777 bootstrap/cache'
             ));
          }
       ],
