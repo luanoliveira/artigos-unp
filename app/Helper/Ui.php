@@ -4,116 +4,140 @@ namespace App\Helper;
 
 class Ui
 {
-    protected $title;
+   protected $title;
 
-    protected $subTitle;
+   protected $subTitle;
 
-    protected $pageActions = [];
+   protected $pageActions = [];
 
-    protected $menu = [];
-    protected $menuActive;
+   protected $menu = [];
+   protected $menuActive;
 
-    protected $form;
+   protected $form;
 
-    public function setTitle($title)
-    {
-        $this->title = $title;
-    }
+   protected $buscaAction;
 
-    public function getTitle()
-    {
-        return $this->title;
-    }
+   protected $buscaTitle = 'Buscar';
 
-    public function getTitlePage($prefix='UNP')
-    {
-        return $this->getTitle() ? $prefix.' | '.$this->getTitle() : $prefix;
-    }
+   public function setTitle($title)
+   {
+      $this->title = $title;
+   }
 
-    public function setSubTitle($subTitle)
-    {
-        $this->subTitle = $subTitle;
-    }
+   public function getTitle()
+   {
+      return $this->title;
+   }
 
-    public function getSubTitle()
-    {
-        return $this->subTitle;
-    }
+   public function getTitlePage($prefix='UNP')
+   {
+      return $this->getTitle() ? $prefix.' | '.$this->getTitle() : $prefix;
+   }
 
-    public function setPageAction($name, $link, array $attrs=[])
-    {
-        $this->pageActions[] = [
-            'name' => $name,
-            'link' => $link,
-            'attrs' => $attrs
-        ];
+   public function setSubTitle($subTitle)
+   {
+      $this->subTitle = $subTitle;
+   }
 
-        return $this;
-    }
+   public function getSubTitle()
+   {
+      return $this->subTitle;
+   }
 
-    public function getPageActions()
-    {
-        return $this->pageActions;
-    }
+   public function setPageAction($name, $link, array $attrs=[])
+   {
+      $this->pageActions[] = [
+         'name' => $name,
+         'link' => $link,
+         'attrs' => $attrs
+      ];
 
-    public function addMenu($id, $name, $link='#')
-    {
-        $this->menu[$id] = [
-            'name' => $name,
-            'link' => $link
-        ];
+      return $this;
+   }
 
-        return $this;
-    }
+   public function getPageActions()
+   {
+      return $this->pageActions;
+   }
 
-    public function setMenuActive($id)
-    {
-        if ( array_key_exists($id, $this->menu) )
-        {
-            $this->menuActive = $id;
-        }
-    }
+   public function addMenu($id, $name, $link='#')
+   {
+      $this->menu[$id] = [
+         'name' => $name,
+         'link' => $link
+      ];
 
-    public function getMenuActive()
-    {
-        return $this->menuActive;
-    }
+      return $this;
+   }
 
-    public function getMenu()
-    {
-        return $this->menu;
-    }
+   public function setMenuActive($id)
+   {
+      if ( array_key_exists($id, $this->menu) )
+      {
+         $this->menuActive = $id;
+      }
+   }
 
-    public function isMenu()
-    {
-        return !empty($this->menu);
-    }
+   public function getMenuActive()
+   {
+      return $this->menuActive;
+   }
 
-    public function input($name, $data=null)
-    {
-        if ( old($name) )
-        {
-            return old($name);
-        }
+   public function getMenu()
+   {
+      return $this->menu;
+   }
 
-        if ( isset($data->$name) )
-        {
-            return $data->$name;
-        }
-    }
+   public function isMenu()
+   {
+      return !empty($this->menu);
+   }
 
-    public function setForm(Form $form)
-    {
-        $this->form = $form;
-    }
+   public function input($name, $data=null)
+   {
+      if ( old($name) )
+      {
+         return old($name);
+      }
 
-    public function getForm()
-    {
-        return $this->form;
-    }
+      if ( isset($data->$name) )
+      {
+         return $data->$name;
+      }
+   }
 
-    public function isForm()
-    {
-        return $this->getForm() ? true : false;
-    }
+   public function setForm(Form $form)
+   {
+      $this->form = $form;
+   }
+
+   public function getForm()
+   {
+      return $this->form;
+   }
+
+   public function isForm()
+   {
+      return $this->getForm() ? true : false;
+   }
+
+   public function setBuscaAction($action)
+   {
+      $this->buscaAction = $action;
+   }
+
+   public function getBuscaAction()
+   {
+      return $this->buscaAction;
+   }
+
+   public function setBuscaTitle($title)
+   {
+      $this->buscaTitle = $title;
+   }
+
+   public function getBuscaTitle()
+   {
+      return $this->buscaTitle;
+   }
 }

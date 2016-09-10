@@ -18,13 +18,23 @@ class PostsController extends GestorController
    {
       $this->ui->setTitle('Posts');
 
-      $this->ui
-      ->setPageAction('Novo Post', route('gestor.posts.create'), ['class' => 'btn btn-primary btn-lg']);
+      $this
+         ->ui
+         ->setPageAction('Novo Post', route('gestor.posts.create'), ['class' => 'btn btn-primary btn-lg']);
 
       $this->ui->setMenuActive('gestor.posts');
 
+      $this->setBusca('post_title', '%{field}%');
 
-      $table = new \App\Helper\Table('\App\Post');
+      $table = new \App\Helper\Table('App\Post', function($Query) {
+         if ( $this->isBusca() )
+         {
+            foreach ($this->getBusca() as $name => $like) {
+               $Query->where($name, 'like', $like);
+            }
+         }
+      });
+
       $table->setColumn('post_title', 'Título', function($data) {
          return $data->post_title;
       });

@@ -12,13 +12,27 @@ class Table
 
    protected $data;
 
-   public function __construct($model)
+   protected $Query;
+
+   public function __construct($model, $callback=null)
    {
       $this->setModel($model);
 
-      $data = $model::orderBy('created_at', 'desc')->paginate(15);
+      //$data = $model::orderBy('created_at', 'desc')->paginate(15);
 
-      $this->setData($data);
+      $this->Query = $model::select('*');
+
+      if ( is_callable($callback) )
+      {
+         call_user_func_array($callback, [$this->Query]);
+      }
+
+      $this->data = $this
+                        ->Query
+                        ->orderBy('created_at', 'desc')
+                        ->paginate(15);
+
+      //$this->setData($data);
    }
 
    public function setModel($model)

@@ -40,10 +40,15 @@
       </ul>
       <?php endif; ?>
 
-      <form class="navbar-form navbar-left">
+      <form class="navbar-form navbar-left" action="<?= $Ui->getBuscaAction() ?>">
          <div class="form-group">
-            <input type="text" class="form-control" placeholder="Buscar">
+            <input type="text" name="s" value="<?= Request::input('s') ?>" class="form-control" placeholder="<?= $Ui->getBuscaTitle() ?>">
          </div>
+         <?php if ( Request::input('s') ) : ?>
+            <a href="<?= $Ui->getBuscaAction() ?>" class="btn btn-danger">
+               <i class="fa fa-eraser"></i>
+            </a>
+         <?php endif; ?>
          <button type="submit" class="btn btn-default">
             <i class="fa fa-search" aria-hidden="true"></i>
          </button>
