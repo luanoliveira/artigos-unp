@@ -46,7 +46,72 @@
       </tbody>
    </table>
 
-   <?= $table->getData()->links() ?>
+<?php
+
+$padding = 3;
+
+$start = $table->getData()->currentPage()-$padding > 1 ? $table->getData()->currentPage()-$padding : 1;
+
+$end = $table->getData()->currentPage()+$padding < $table->getData()->lastPage() ? $table->getData()->currentPage()+$padding : $table->getData()->lastPage();
+
+?>
+
+<?php if ( $table->getData()->lastPage() > 1 ) : ?>
+<nav>
+   <ul class="pagination">
+
+      <?php if ( $table->getData()->currentPage() > 1 ) : ?>
+         <li>
+            <a href="<?= route(\Request::route()->getName(), ['page' => 1]) ?>">
+               <i class="fa fa-angle-double-left"></i>
+            </a>
+         </li>
+
+         <li>
+            <a href="<?= route(\Request::route()->getName(), ['page' => $table->getData()->currentPage()-1]) ?>">
+               <i class="fa fa-angle-left"></i>
+            </a>
+         </li>
+      <?php endif; ?>
+
+
+      <!--
+      <li class="disabled">
+         <span>
+           <span aria-hidden="true">&laquo;</span>
+         </span>
+      </li>
+   -->
+
+      <?php foreach (range($start, $end) as $page) : ?>
+         <li class="<?= $table->getData()->currentPage() == $page ? 'active' : null; ?>">
+            <a href="<?= route(\Request::route()->getName(), ['page' => $page]) ?>"><?= $page ?></a>
+         </li>
+      <?php endforeach; ?>
+
+
+      <?php if ( $table->getData()->currentPage() < $table->getData()->lastPage() ) : ?>
+         <li>
+            <a href="<?= route(\Request::route()->getName(), ['page' => $table->getData()->currentPage()+1]) ?>">
+               <i class="fa fa-angle-right"></i>
+            </a>
+         </li>
+
+         <li>
+            <a href="<?= route(\Request::route()->getName(), ['page' => $table->getData()->lastPage()]) ?>">
+               <i class="fa fa-angle-double-right"></i>
+            </a>
+         </li>
+      <?php endif; ?>
+
+      <!--
+      <li class="active">
+         <span>1 <span class="sr-only">(current)</span></span>
+      </li>
+   -->
+   </ul>
+</nav>
+<?php endif; ?>
 
 <?php else : ?>
    <p>Ops, nenhum data cadastrado.</p>
