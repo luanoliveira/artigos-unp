@@ -25,7 +25,12 @@ return [
    'after'  => [
       'setup'   => [],
       'deploy'  => [
-         'chmod -Rf storage'
+         function($task) {
+            $task->runForCurrentRelease(array(
+               'chmod -rf 777 storage',
+               'chmod -rf 777 bootstrap/cache'
+            ));
+         }
       ],
       'cleanup' => [],
    ],
