@@ -204,7 +204,7 @@ class UsersController extends GestorController
 
       if ( $request->destroy_avatar && $user->avatar )
       {
-         Storage::delete(storage_path(sprintf('app/public/%s', $user->avatar)));
+         //Storage::delete(storage_path(sprintf('app/public/%s', $user->avatar)));
          $user->avatar = null;
       }
 

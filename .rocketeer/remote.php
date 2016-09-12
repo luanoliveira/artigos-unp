@@ -31,7 +31,6 @@ return [
    // user uploaded data, file-based databases, etc.
    'shared'         => [
       '.env',
-      'storage/app/public'
    ],
 
    // Execution

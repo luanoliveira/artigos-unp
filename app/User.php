@@ -39,7 +39,7 @@ class User extends Authenticatable
    {
       if ( $value )
       {
-         return config('app.url').Storage::url(sprintf('app/public/%s', $value));
+         return asset(sprintf('uploads/users/%s', $value));
       }
    }
 
