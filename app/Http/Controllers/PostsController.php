@@ -16,7 +16,9 @@ class PostsController extends GestorController
 {
    public function index()
    {
-      $this->ui->setTitle('Posts');
+      $this
+         ->ui
+         ->setTitle('Posts');
 
       $this
          ->ui

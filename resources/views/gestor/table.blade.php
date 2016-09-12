@@ -26,7 +26,7 @@
                <?php endforeach; ?>
 
                <?php if ($table->getActions()) : ?>
-                  <td>
+                  <td style="vertical-align: middle; text-align: right;">
                      <div class="btn-group">
                         <?php foreach($table->getActions() as $action) : ?>
                            <?php

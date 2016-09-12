@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use Storage;
+
 class User extends Authenticatable
 {
    use Notifiable;
@@ -26,4 +28,29 @@ class User extends Authenticatable
    protected $hidden = [
       'password', 'remember_token',
    ];
+
+   /**
+     * Get the user's first name.
+     *
+     * @param  string  $value
+     * @return string
+     */
+   public function getAvatarAttribute($value)
+   {
+      if ( $value )
+      {
+         return config('app.url').Storage::url(sprintf('app/public/%s', $value));
+      }
+   }
+
+   static function getAvatar($asset='images/perfil.gif')
+   {
+      //$user = self::find(\Auth::user()->id);
+      if ( \Auth::user()->avatar )
+      {
+         return \Auth::user()->avatar;
+      }
+
+      return asset($asset);
+   }
 }

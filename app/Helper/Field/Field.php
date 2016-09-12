@@ -4,80 +4,98 @@ namespace App\Helper\Field;
 
 abstract class Field
 {
-    protected $label;
+   protected $label;
 
-    protected $name;
+   protected $name;
 
-    protected $value;
+   protected $value;
 
-    protected $attrs;
+   protected $attrs;
 
-    public function __construct($name, $label, $value=null)
-    {
-        $this->setName($name); 
+   protected $row;
 
-        $this->setLabel($label);  
+   public function __construct($name, $label, $value=null)
+   {
+      $this->setName($name);
 
-        $this->setValue($value);
-    }
+      $this->setLabel($label);
 
-    public function setLabel($label)
-    {
-        $this->label = $label;
-    }
+      $this->setValue($value);
+   }
 
-    public function getLabel()
-    {
-        return $this->label;
-    }
+   public function setRow($row)
+   {
+      $this->row = $row;
+      return $this;
+   }
 
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
+   public function isRow()
+   {
+      return !is_null($this->row);
+   }
 
-    public function getName()
-    {
-        return $this->name;
-    }
+   public function getRow()
+   {
+      return $this->row;
+   }
 
-    public function setValue($value)
-    {
-        if ( old($this->getName()) ) {
-            $this->value = old($this->getName());
-            return;
-        }
-        
-        $this->value = $value;        
-    }
+   public function setLabel($label)
+   {
+      $this->label = $label;
+   }
 
-    public function getValue()
-    {
-        return $this->value;
-    }
+   public function getLabel()
+   {
+      return $this->label;
+   }
 
-    public function tag()
-    {
-        return $this->getName();
-    }
+   public function setName($name)
+   {
+      $this->name = $name;
+   }
 
-    public function setAttr($attr, $value=null)
-    {
-        $this->attrs[$attr] = $value;
+   public function getName()
+   {
+      return $this->name;
+   }
 
-        return $this;
-    }
+   public function setValue($value)
+   {
+      if ( old($this->getName()) ) {
+         $this->value = old($this->getName());
+         return;
+      }
 
-    public function getAttrsFormated()
-    {
-        if ( $this->attrs )
-        {
-            $attrs = array_map(function($value, $key) {
-                return !is_null($value) ? sprintf("%s=\"%s\"", $key, $value) : $key;
-            }, $this->attrs, array_keys($this->attrs));
+      $this->value = $value;
+   }
 
-            return implode(' ', $attrs);
-        }
-        
-    }
+   public function getValue()
+   {
+      return $this->value;
+   }
+
+   public function tag()
+   {
+      return $this->getName();
+   }
+
+   public function setAttr($attr, $value=null)
+   {
+      $this->attrs[$attr] = $value;
+
+      return $this;
+   }
+
+   public function getAttrsFormated()
+   {
+      if ( $this->attrs )
+      {
+         $attrs = array_map(function($value, $key) {
+            return !is_null($value) ? sprintf("%s=\"%s\"", $key, $value) : $key;
+         }, $this->attrs, array_keys($this->attrs));
+
+         return implode(' ', $attrs);
+      }
+
+   }
 }

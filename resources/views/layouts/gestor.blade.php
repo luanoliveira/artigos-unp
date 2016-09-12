@@ -55,7 +55,9 @@
       </form>
 
       <ul class="nav navbar-nav navbar-right">
-
+         <li>
+            <img src="<?= \App\User::getAvatar() ?>" style="width: 50px;">
+         </li>
          <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?= Auth::user()->name ?> <span class="caret"></span></a>
             <ul class="dropdown-menu">

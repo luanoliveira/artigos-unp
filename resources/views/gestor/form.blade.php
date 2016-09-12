@@ -1,4 +1,4 @@
-<form class="form-horizontal" method="post" action="<?= $form->getAction() ?>">
+<form class="form-horizontal" method="post" enctype="<?= $form->getEnctype() ?>" action="<?= $form->getAction() ?>">
    <?php if ( $form->isPUT() ) : ?>
    <?= method_field($form->getMethod()) ?>
    <?php endif; ?>

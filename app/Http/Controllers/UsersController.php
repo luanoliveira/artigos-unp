@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests;
 
+use Storage;
+
 class UsersController extends GestorController
 {
    public function index()
@@ -19,6 +21,11 @@ class UsersController extends GestorController
 
 
       $table = new \App\Helper\Table('\App\User');
+
+      $table->setColumn('avatar', 'Avatar', function($data) {
+         return sprintf('<img src="%s" width="50px">', $data->avatar ? $data->avatar : \App\User::getAvatar());
+      });
+
       $table->setColumn('name', 'Nome', function($data) {
          return $data->name;
       });
@@ -50,6 +57,7 @@ class UsersController extends GestorController
       $this->ui->setMenuActive('gestor.users');
 
       $formulario = new \App\Helper\Form;
+      $formulario->setEnctype('multipart/form-data');
       $formulario->setAction(route('gestor.users.store'));
       $formulario->setActionBack(route('gestor.users'));
 
@@ -73,6 +81,8 @@ class UsersController extends GestorController
 
       $formulario->setField($password_confirmation);
 
+      $formulario->setField(new \App\Helper\Field\ImageField('avatar', 'Avatar'));
+
       return $this->viewForm($formulario);
    }
 
@@ -86,14 +96,49 @@ class UsersController extends GestorController
             ->withInput();
       }
 
+
+
       $user = new \App\User;
       $user->name = $request->name;
       $user->email = $request->email;
       $user->password = Hash::make($request->password);
+      $user->avatar = $this->file($request->avatar);
       $user->save();
 
       $request->session()->flash('alert.success', 'Usuário cadastrado com sucesso.');
       return redirect()->route('gestor.users');
+   }
+
+   protected function file($file)
+   {
+      if ( $file )
+      {
+         //dd( storage_path('public') );
+
+         //for ($i=1; $i <= 10; $i++) {
+            $filename = strtolower(
+               pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)
+               .'-'
+               .uniqid()
+               .'.'
+               .$file->getClientOriginalExtension()
+            );
+
+            $path = Storage::putFileAs('public', $file, $filename);
+         //}
+
+         //dd( storage_path('public').'/'.$filename );
+
+         $image = new \Eventviva\ImageResize(storage_path('app/public').'/'.$filename);
+         $image
+            ->resizeToHeight(100)
+            ->crop(100, 100)
+            ->save(storage_path('app/public').'/'.$filename);
+
+         //dd($filename);
+
+         return $filename;
+      }
    }
 
    public function destroy(Request $request, $user)
@@ -113,6 +158,7 @@ class UsersController extends GestorController
       $user = \App\User::find($user);
 
       $formulario = new \App\Helper\Form;
+      $formulario->setEnctype('multipart/form-data');
       $formulario->setAction(route('gestor.users.update', ['user' => $user]));
       $formulario->setMethod('PUT');
       $formulario->setActionBack(route('gestor.users'));
@@ -128,6 +174,17 @@ class UsersController extends GestorController
 
       $formulario->setField($email);
 
+      $avatar = new \App\Helper\Field\ImageField('avatar', 'Avatar');
+      $avatar->setRow($user);
+
+      $formulario->setField($avatar);
+
+      /*if ( $user->avatar ) {
+         //$remover = new \App\Helper\Field\CheckboxField('remover_avatar', 'Remover Avatar.');
+         //$formulario->setField($remover);
+         $user->avatar = config('app.url').Storage::url(sprintf('app/public/%s', $user->avatar));
+      }*/
+
       return $this->viewForm($formulario);
    }
 
@@ -142,7 +199,20 @@ class UsersController extends GestorController
       }
 
       $user = \App\User::find($user);
+
       $user->name = $request->name;
+
+      if ( $request->destroy_avatar && $user->avatar )
+      {
+         Storage::delete(storage_path(sprintf('app/public/%s', $user->avatar)));
+         $user->avatar = null;
+      }
+
+      if ( $request->avatar )
+      {
+         $user->avatar = $this->file($request->avatar);
+      }
+
       $user->save();
 
       $request->session()->flash('alert.success', 'Usuário atualizado com sucesso.');
