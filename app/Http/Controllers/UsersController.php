@@ -23,7 +23,7 @@ class UsersController extends GestorController
       $table = new \App\Helper\Table('\App\User');
 
       $table->setColumn('avatar', 'Avatar', function($data) {
-         return sprintf('<img src="%s" width="50px">', $data->avatar ? $data->avatar : \App\User::getAvatar());
+         return sprintf('<img src="%s" width="50px">', $data->avatar ? $data->avatar : \App\User::getAvatar(true));
       });
 
       $table->setColumn('name', 'Nome', function($data) {

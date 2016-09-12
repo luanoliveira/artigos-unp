@@ -43,10 +43,10 @@ class User extends Authenticatable
       }
    }
 
-   static function getAvatar($asset='images/perfil.gif')
+   static function getAvatar($default=false, $asset='images/perfil.gif')
    {
       //$user = self::find(\Auth::user()->id);
-      if ( \Auth::user()->avatar )
+      if ( \Auth::user()->avatar && !$default )
       {
          return \Auth::user()->avatar;
       }
