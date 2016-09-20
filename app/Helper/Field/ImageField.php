@@ -37,13 +37,14 @@ class ImageField extends Field
 
       }
       */
+      $name = $this->getName();
 
       $html[] = "<input type=\"file\" name=\"{$this->getName()}\" id=\"field_{$this->getName()}\" class=\"form-control\" value=\"{$this->getValue()}\" {$this->getAttrsFormated()}>";
 
-      if ( $this->isRow() && $this->getRow()->avatar )
+      if ( $this->isRow() && $this->getRow()->$name )
       {
          $html[] = '<a href="#" class="thumbnail" style="width: 100px;">';
-            $html[] = "<img src=\"{$this->getRow()->avatar}\">";
+            $html[] = "<img src=\"{$this->getRow()->$name}\">";
          $html[] = '</a>';
 
          $html[] = '<div class="checkbox">';

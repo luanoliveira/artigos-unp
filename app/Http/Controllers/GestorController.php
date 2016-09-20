@@ -34,10 +34,10 @@ class GestorController extends Controller
       $this
          ->ui
          ->addMenu('gestor.dashboard', 'Dashboard', route('gestor.dashboard'))
-         ->addMenu('gestor.posts', 'Posts', route('gestor.posts'))
+         ->addMenu('gestor.posts', 'Artigos', route('gestor.posts'))
          ->addMenu('gestor.tags', 'Tags', route('gestor.tags'))
+         ->addMenu('gestor.categorias', 'Categorias', route('gestor.categorias'))
          ->addMenu('gestor.users', 'Usuários', route('gestor.users'));
-
    }
 
    public function view($view, array $data=[])

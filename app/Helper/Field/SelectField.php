@@ -8,6 +8,8 @@ class SelectField extends Field
 
     protected $multiple = false;
 
+    protected $isDefault = true;
+
     public function __construct($name, $label, array $options=[], $value=null)
     {
         parent::__construct($name, $label, $value);
@@ -21,11 +23,13 @@ class SelectField extends Field
     public function setOption($key, $value)
     {
         $this->options[$key] = $value;
+        return $this;
     }
 
     public function setMultiple()
     {
         $this->multiple = true;
+        return $this;
     }
 
     public function isMultiple()
@@ -44,6 +48,11 @@ class SelectField extends Field
 
         $tag[] = "<select id=\"field_{$this->getName()}\" {$this->getAttrsFormated()}>";
         
+        if ( $this->isDefault )
+        {
+            $tag[] = "<option value=\"\">#</option>";
+        }
+
         foreach($this->options as $key => $value)
         {
             $selected = $this->isSelected($key) ? 'selected' : null;

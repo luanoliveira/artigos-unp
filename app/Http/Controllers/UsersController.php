@@ -96,8 +96,6 @@ class UsersController extends GestorController
             ->withInput();
       }
 
-
-
       $user = new \App\User;
       $user->name = $request->name;
       $user->email = $request->email;

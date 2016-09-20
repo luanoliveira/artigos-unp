@@ -8,6 +8,8 @@ use App\Http\Requests;
 
 use App\Post;
 
+use App\Categoria;
+
 use Validator;
 
 use App\Helper\Form;
@@ -18,11 +20,11 @@ class PostsController extends GestorController
    {
       $this
          ->ui
-         ->setTitle('Posts');
+         ->setTitle('Artigos');
 
       $this
          ->ui
-         ->setPageAction('Novo Post', route('gestor.posts.create'), ['class' => 'btn btn-primary btn-lg']);
+         ->setPageAction('Novo Artigo', route('gestor.posts.create'), ['class' => 'btn btn-primary btn-lg']);
 
       $this->ui->setMenuActive('gestor.posts');
 
@@ -47,6 +49,11 @@ class PostsController extends GestorController
 
          return implode(', ', $tags) ? implode(', ', $tags) : '-';
       });
+
+      $table->setColumn('categorias_id', 'Categoria', function($data) {
+         return $data->categoria ? $data->categoria->name : 'Não informado.';
+      });
+
       $table->setColumn('created_at', 'Criado em', function($data) {
          return date_format(date_create($data->created_at), 'd/m/Y H:i:s');
       });
@@ -71,7 +78,7 @@ class PostsController extends GestorController
 
    public function create()
    {
-      $this->ui->setTitle('Novo Post');
+      $this->ui->setTitle('Novo Artigo');
 
       $this->ui->setMenuActive('gestor.posts');
 
@@ -98,6 +105,17 @@ class PostsController extends GestorController
 
       $formulario->setField($tags);
 
+
+      $options = array_map(function($categoria) {
+         return $categoria['name'];
+      }, \App\Categoria::all()->keyBy('id')->toArray());
+
+      $categoria = new \App\Helper\Field\SelectField('categorias_id', 'Categoria', $options);
+      $categoria
+         ->setAttr('class', 'form-control');
+
+      $formulario->setField($categoria);
+
       return $this->viewForm($formulario);
    }
 
@@ -116,6 +134,11 @@ class PostsController extends GestorController
       $post->post_content = $request->post_content;
       $post->user_created = \Auth::user()->id;
       $post->user_updated = \Auth::user()->id;
+      if ( $request->categorias_id )
+      {
+         $post->categorias_id = $request->categorias_id;
+      }
+      
       $post->save();
 
       if ( $request->post_tags )
@@ -133,7 +156,10 @@ class PostsController extends GestorController
 
    public function edit(Request $request, $post)
    {
-      $this->ui->setTitle('Editar Post');
+      $this
+         ->ui
+         ->setMenuActive('gestor.posts')
+         ->setTitle('Editar Artigo');
 
       $post = Post::find($post);
 
@@ -165,6 +191,23 @@ class PostsController extends GestorController
 
       $formulario->setField($tags);
 
+
+
+
+      $options = array_map(function($categoria) {
+         return $categoria['name'];
+      }, \App\Categoria::all()->keyBy('id')->toArray());
+
+      $optionsSelected = $post->categorias_id;
+
+      $categoria = new \App\Helper\Field\SelectField('categorias_id', 'Categoria', $options, $optionsSelected);
+      $categoria->setAttr('class', 'form-control');
+
+      $formulario->setField($categoria);
+
+
+
+
       return $this->viewForm($formulario);
    }
 
@@ -182,6 +225,12 @@ class PostsController extends GestorController
       $post->post_title = $request->post_title;
       $post->post_content = $request->post_content;
       $post->user_updated = \Auth::user()->id;
+      $post->categorias_id = null;
+      if ( $request->categorias_id )
+      {
+         $post->categorias_id = $request->categorias_id;
+      }
+      
       $post->save();
 
       if ( $request->post_tags )

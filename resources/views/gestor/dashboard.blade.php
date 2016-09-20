@@ -5,10 +5,12 @@
          <div class="panel-heading">
             <h3 class="panel-title">
                <i class="fa fa-clock-o" aria-hidden="true"></i>
-               <span>Últimos Posts</span>
+               <span>Últimos Artigos</span>
             </h3>
          </div>
          <div class="panel-body">
+
+            <?php if  ($posts->count() ) : ?>
             <ul class="list-group">
                <?php foreach ($posts as $post) : ?>
                <a href="#" class="list-group-item">
@@ -18,6 +20,9 @@
                </a>
                <?php endforeach; ?>
             </ul>
+            <?php else : ?>
+            <div class="alert alert-warning">Nenhum artigo cadastrado.</div>
+            <?php endif; ?>
          </div>
       </div>
    </div><!-- .col-sm-6 -->

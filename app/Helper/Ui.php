@@ -22,6 +22,7 @@ class Ui
    public function setTitle($title)
    {
       $this->title = $title;
+      return $this;
    }
 
    public function getTitle()
@@ -37,6 +38,7 @@ class Ui
    public function setSubTitle($subTitle)
    {
       $this->subTitle = $subTitle;
+      return $this;
    }
 
    public function getSubTitle()
@@ -76,6 +78,8 @@ class Ui
       {
          $this->menuActive = $id;
       }
+
+      return $this;
    }
 
    public function getMenuActive()
@@ -109,6 +113,7 @@ class Ui
    public function setForm(Form $form)
    {
       $this->form = $form;
+      return $this;
    }
 
    public function getForm()
@@ -124,6 +129,7 @@ class Ui
    public function setBuscaAction($action)
    {
       $this->buscaAction = $action;
+      return $this;
    }
 
    public function getBuscaAction()
@@ -134,6 +140,7 @@ class Ui
    public function setBuscaTitle($title)
    {
       $this->buscaTitle = $title;
+      return $this;
    }
 
    public function getBuscaTitle()
