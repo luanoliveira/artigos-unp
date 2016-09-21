@@ -37,10 +37,25 @@
          </div>
          <div class="panel-body">
             <div class="form-group">
-               <input type="text" class="form-control" disabled value="<?= route('v1.posts') ?>">
+               <input type="text" class="form-control" disabled value="<?= config('app.url') ?>/v1/posts">
+            </div>
+            
+            <div class="form-group">
+               <input type="text" class="form-control" disabled value="<?= config('app.url') ?>/v1/posts/{s?}">
+            </div>
+
+            <div class="form-group">
+               <input type="text" class="form-control" disabled value="<?= config('app.url') ?>/v1/post/{id}">
+            </div>
+
+            <div class="form-group">
+                <input type="text" class="form-control" disabled value="<?= config('app.url') ?>/v1/categorias/{categorias_id}/posts/{s?}">
             </div>
             <div class="form-group">
-               <input type="text" class="form-control" disabled value="<?= route('v1.tags') ?>">
+                <input type="text" class="form-control" disabled value="<?= config('app.url') ?>/v1/categorias">
+            </div>            
+            <div class="form-group">
+               <input type="text" class="form-control" disabled value="<?= config('app.url') ?>/v1/tags">
             </div>
          </div>
       </div>

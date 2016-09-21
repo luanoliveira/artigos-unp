@@ -31,6 +31,10 @@ Route::get('/gestor/posts/{post}/edit', 'PostsController@edit')->name('gestor.po
 Route::put('/gestor/posts/{post}', 'PostsController@update')->name('gestor.posts.update');
 Route::get('/gestor/posts/{post}/destroy', 'PostsController@destroy')->name('gestor.posts.destroy');
 
+Route::get('/v1/post/{id}', function($id) {
+    return App\Post::select("*")->with('tags')->with('categoria')->find($id);
+});
+
 Route::get('/v1/posts/{s?}', function ($s=null) {
    $data = [];
 
