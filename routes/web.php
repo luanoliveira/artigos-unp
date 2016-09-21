@@ -36,6 +36,13 @@ Route::get('/v1/post/{id}', function($id) {
 });
 
 Route::get('/v1/posts/{s?}', function ($s=null) {
+
+   header('Access-Control-Allow-Origin: *');
+   header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+   header('Access-Control-Allow-Headers: Origin, Content-Type, Accept, Authorization, X-Request-With');
+   header('Access-Control-Allow-Credentials: true');  
+
+
    $data = [];
 
    $model = App\Post::select('*')->with('tags');
