@@ -12,7 +12,12 @@
 */
 
 Route::get('/', function () {
-    return view('home');
+   header('Access-Control-Allow-Origin: *');
+   header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+   header('Access-Control-Allow-Headers: Origin, Content-Type, Accept, Authorization, X-Request-With');
+   header('Access-Control-Allow-Credentials: true');
+
+   return view('home');
 });
 
 Auth::routes();
@@ -32,7 +37,12 @@ Route::put('/gestor/posts/{post}', 'PostsController@update')->name('gestor.posts
 Route::get('/gestor/posts/{post}/destroy', 'PostsController@destroy')->name('gestor.posts.destroy');
 
 Route::get('/v1/post/{id}', function($id) {
-    return App\Post::select("*")->with('tags')->with('categoria')->find($id);
+   header('Access-Control-Allow-Origin: *');
+   header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+   header('Access-Control-Allow-Headers: Origin, Content-Type, Accept, Authorization, X-Request-With');
+   header('Access-Control-Allow-Credentials: true');
+
+   return App\Post::select("*")->with('tags')->with('categoria')->find($id);
 });
 
 Route::get('/v1/posts/{s?}', function ($s=null) {
@@ -40,8 +50,7 @@ Route::get('/v1/posts/{s?}', function ($s=null) {
    header('Access-Control-Allow-Origin: *');
    header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
    header('Access-Control-Allow-Headers: Origin, Content-Type, Accept, Authorization, X-Request-With');
-   header('Access-Control-Allow-Credentials: true');  
-
+   header('Access-Control-Allow-Credentials: true');
 
    $data = [];
 
@@ -59,6 +68,11 @@ Route::get('/v1/posts/{s?}', function ($s=null) {
 })->name('v1.posts');
 
 Route::get('/v1/categorias/{categorias_id}/posts/{s?}/', function ($categorias_id, $s=null) {
+   header('Access-Control-Allow-Origin: *');
+   header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+   header('Access-Control-Allow-Headers: Origin, Content-Type, Accept, Authorization, X-Request-With');
+   header('Access-Control-Allow-Credentials: true');
+   
    $data = [];
 
    $model = App\Post::select('*')->with('tags')->with('categoria');
@@ -91,10 +105,20 @@ Route::put('/gestor/categorias/{categoria}', 'CategoriasController@update')->nam
 Route::get('/gestor/categorias/{categoria}/destroy', 'CategoriasController@destroy')->name('gestor.categorias.destroy');
 
 Route::get('/v1/categorias', function() {
-    return App\Categoria::paginate(15);
+   header('Access-Control-Allow-Origin: *');
+   header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+   header('Access-Control-Allow-Headers: Origin, Content-Type, Accept, Authorization, X-Request-With');
+   header('Access-Control-Allow-Credentials: true');
+
+   return App\Categoria::paginate(15);
 })->name('v1.categorias');
 
 Route::get('/v1/tags/{s?}', function ($s=null) {
+   header('Access-Control-Allow-Origin: *');
+   header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+   header('Access-Control-Allow-Headers: Origin, Content-Type, Accept, Authorization, X-Request-With');
+   header('Access-Control-Allow-Credentials: true');
+   
    $data = [];
 
    $model = App\Tag::select('*');
