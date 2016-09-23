@@ -17,7 +17,7 @@ Route::get('/', function () {
    return view('home');
 });
 
-Auth::routes();
+//Auth::routes();
 
 //Route::get('/login', 'Controller@login');
 //Route::post('/login', 'Controller@checkLogin');
@@ -25,6 +25,13 @@ Auth::routes();
 //Route::get('/home', 'HomeController@index');
 
 Route::get('/gestor', 'GestorController@dashboard')->name('gestor.dashboard');
+
+Route::get('/login', function() {
+    return view('auth.login');
+})->name('login');
+
+Route::post('/login', 'AuthController@login')->name('gestor.login');
+Route::get('/gestor/logout', 'AuthController@logout')->name('gestor.logout');
 
 Route::get('/gestor/posts', 'PostsController@index')->name('gestor.posts');
 Route::post('/gestor/posts', 'PostsController@store')->name('gestor.posts.store');

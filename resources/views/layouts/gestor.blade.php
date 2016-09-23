@@ -66,10 +66,7 @@
                <li><a href="#">Something else here</a></li>
                <li role="separator" class="divider"></li>
                <li>
-                  <form action="<?= url('/logout') ?>" method="post">
-                     {{ csrf_field() }}
-                     <button type="submit"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</button>
-                  </form>
+                  <a href="<?= route('gestor.logout') ?>"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
                </li>
             </ul>
          </li>

@@ -27,7 +27,7 @@ return [
       'deploy'  => [
          function($task) {
             $task->runForCurrentRelease(array(
-               'ln -s storage/app/public public/uploads/users',
+               'php artisan storage:link',
                'chmod -Rf 777 storage',
                'chmod -Rf 777 bootstrap/cache'
             ));

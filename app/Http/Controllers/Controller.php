@@ -12,4 +12,5 @@ use App\Http\Requests;
 class Controller extends BaseController
 {
    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
 }

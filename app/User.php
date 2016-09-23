@@ -39,7 +39,7 @@ class User extends Authenticatable
    {
       if ( $value )
       {
-         return asset(sprintf('uploads/users/%s', $value));
+         return asset('/storage/'.$value);
       }
    }
 

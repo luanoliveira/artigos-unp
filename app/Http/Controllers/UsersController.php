@@ -111,29 +111,21 @@ class UsersController extends GestorController
    {
       if ( $file )
       {
-         //dd( storage_path('public') );
+			$filename = strtolower(
+					pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)
+					.'-'
+					.uniqid()
+					.'.'
+					.$file->getClientOriginalExtension()
+			);
 
-         //for ($i=1; $i <= 10; $i++) {
-            $filename = strtolower(
-               pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)
-               .'-'
-               .uniqid()
-               .'.'
-               .$file->getClientOriginalExtension()
-            );
-
-            $path = Storage::putFileAs('public', $file, $filename);
-         //}
-
-         //dd( storage_path('public').'/'.$filename );
+			$path = Storage::putFileAs('public', $file, $filename);
 
          $image = new \Eventviva\ImageResize(storage_path('app/public').'/'.$filename);
          $image
             ->resizeToHeight(100)
             ->crop(100, 100)
             ->save(storage_path('app/public').'/'.$filename);
-
-         //dd($filename);
 
          return $filename;
       }
