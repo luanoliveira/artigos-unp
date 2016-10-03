@@ -19,11 +19,11 @@ class UsersController extends GestorController
 
       $this->ui->setMenuActive('gestor.users');
 
-
       $table = new \App\Helper\Table('\App\User');
 
       $table->setColumn('avatar', 'Avatar', function($data) {
-         return sprintf('<img src="%s" width="50px">', $data->avatar ? $data->avatar : \App\User::getAvatar(true));
+         $image = $data->avatar ? asset('/storage/'.$data->avatar) : \App\User::getAvatar(true);
+         return sprintf('<img src="%s" width="50px">', $image);
       });
 
       $table->setColumn('name', 'Nome', function($data) {
@@ -165,7 +165,11 @@ class UsersController extends GestorController
       $formulario->setField($email);
 
       $avatar = new \App\Helper\Field\ImageField('avatar', 'Avatar');
-      $avatar->setRow($user);
+      $avatar
+         ->setRow($user)
+         ->setCallbackImageField(function($row) {
+            return asset('/storage/'.$row->avatar);
+         });
 
       $formulario->setField($avatar);
 

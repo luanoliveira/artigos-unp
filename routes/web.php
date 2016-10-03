@@ -57,6 +57,16 @@ Route::get('/v1/posts/{s?}', function ($s=null) {
 
    $data = array_merge($data, $model->paginate(15)->toArray());
 
+   $data['data'] = array_map(function($row) {
+      $row['image'] = [
+         'normal' => $row['image'] ? asset('storage/'.$row['image']) : null,
+         '80x80' => $row['image'] ? asset(sprintf('storage/80x80_%s', $row['image'])) : null
+      ];
+
+      return $row;
+
+   }, $data['data']);
+
    return $data;
 })->name('v1.posts');
 

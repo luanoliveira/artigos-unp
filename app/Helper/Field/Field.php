@@ -26,6 +26,7 @@ abstract class Field
    public function setRow($row)
    {
       $this->row = $row;
+
       return $this;
    }
 

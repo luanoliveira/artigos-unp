@@ -35,6 +35,7 @@ class User extends Authenticatable
      * @param  string  $value
      * @return string
      */
+   /*
    public function getAvatarAttribute($value)
    {
       if ( $value )
@@ -42,13 +43,14 @@ class User extends Authenticatable
          return asset('/storage/'.$value);
       }
    }
+   */
 
    static function getAvatar($default=false, $asset='images/perfil.gif')
    {
       //$user = self::find(\Auth::user()->id);
       if ( \Auth::user()->avatar && !$default )
       {
-         return \Auth::user()->avatar;
+         return asset(sprintf('storage/%s', \Auth::user()->avatar));
       }
 
       return asset($asset);

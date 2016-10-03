@@ -24,4 +24,15 @@ class Post extends Model
    {
       return $this->hasOne('App\Categoria', 'id', 'categorias_id');
    }
+
+   /*
+   public static function getImageAttribute($value)
+   {
+      if ( $value )
+      {
+         return asset('/storage/'.$value);
+      }
+   }
+   */
+
 }

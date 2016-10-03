@@ -14,6 +14,8 @@ use Validator;
 
 use App\Helper\Form;
 
+use Storage;
+
 class PostsController extends GestorController
 {
    public function index()
@@ -37,6 +39,11 @@ class PostsController extends GestorController
                $Query->where($name, 'like', $like);
             }
          }
+      });
+
+      $table->setColumn('image', 'Image', function($data) {
+         $image = asset('/storage/80x80_'.$data->image);
+         return $data->image ? sprintf('<img src="%s" width="80px">', $image) : '-';
       });
 
       $table->setColumn('post_title', 'Título', function($data) {
@@ -83,6 +90,7 @@ class PostsController extends GestorController
       $this->ui->setMenuActive('gestor.posts');
 
       $formulario = new Form;
+      $formulario->setEnctype('multipart/form-data');
       $formulario->setAction(route('gestor.posts.store'));
       $formulario->setActionBack(route('gestor.posts'));
 
@@ -114,6 +122,8 @@ class PostsController extends GestorController
       $categoria
          ->setAttr('class', 'form-control');
 
+      $formulario->setField(new \App\Helper\Field\ImageField('image', 'Imagem'));
+
       $formulario->setField($categoria);
 
       return $this->viewForm($formulario);
@@ -132,6 +142,7 @@ class PostsController extends GestorController
       $post = new Post;
       $post->post_title = $request->post_title;
       $post->post_content = $request->post_content;
+      $post->image = $this->file($request->image);
       $post->user_created = \Auth::user()->id;
       $post->user_updated = \Auth::user()->id;
       if ( $request->categorias_id )
@@ -154,6 +165,35 @@ class PostsController extends GestorController
       return redirect()->route('gestor.posts');
    }
 
+   protected function file($file)
+   {
+      if ( $file )
+      {
+         $filename = strtolower(
+               pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)
+               .'-'
+               .uniqid()
+               .'.'
+               .$file->getClientOriginalExtension()
+         );
+
+         $path = Storage::putFileAs('public', $file, $filename);
+
+         $image = new \Eventviva\ImageResize(storage_path('app/public').'/'.$filename);
+         
+         $image
+            ->resizeToWidth(1024)
+            ->save(storage_path('app/public').'/'.$filename);
+
+         $image
+            ->resizeToHeight(80)
+            ->crop(80, 80)
+            ->save(storage_path('app/public').'/80x80_'.$filename);
+
+         return $filename;
+      }
+   }
+
    public function edit(Request $request, $post)
    {
       $this
@@ -164,6 +204,7 @@ class PostsController extends GestorController
       $post = Post::find($post);
 
       $formulario = new Form;
+      $formulario->setEnctype('multipart/form-data');
       $formulario->setAction(route('gestor.posts.update', ['post' => $post]));
       $formulario->setMethod('PUT');
       $formulario->setActionBack(route('gestor.posts'));
@@ -191,8 +232,14 @@ class PostsController extends GestorController
 
       $formulario->setField($tags);
 
+      $image = new \App\Helper\Field\ImageField('image', 'Imagem');
+      $image
+         ->setRow($post)
+         ->setCallbackImageField(function($row) {
+            return asset('/storage/'.$row->image);
+         });
 
-
+      $formulario->setField($image);
 
       $options = array_map(function($categoria) {
          return $categoria['name'];
@@ -229,6 +276,17 @@ class PostsController extends GestorController
       if ( $request->categorias_id )
       {
          $post->categorias_id = $request->categorias_id;
+      }
+
+      if ( $request->destroy_image && $post->image )
+      {
+         //Storage::delete(storage_path(sprintf('app/public/%s', $user->avatar)));
+         $post->image = null;
+      }
+
+      if ( $request->image )
+      {
+         $post->image = $this->file($request->image);
       }
       
       $post->save();
