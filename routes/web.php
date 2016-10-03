@@ -41,7 +41,14 @@ Route::put('/gestor/posts/{post}', 'PostsController@update')->name('gestor.posts
 Route::get('/gestor/posts/{post}/destroy', 'PostsController@destroy')->name('gestor.posts.destroy');
 
 Route::get('/v1/post/{id}', function($id) {
-   return App\Post::select("*")->with('tags')->with('categoria')->find($id);
+   $data = App\Post::select("*")->with('tags')->with('categoria')->find($id);
+
+   $data['image'] = [
+      'normal' => $data['image'] ? asset('storage/'.$data['image']) : null,
+      '80x80' => $data['image'] ? asset(sprintf('storage/80x80_%s', $data['image'])) : null
+   ];
+
+   return $data;
 });
 
 Route::get('/v1/posts/{s?}', function ($s=null) {
@@ -84,6 +91,16 @@ Route::get('/v1/categorias/{categorias_id}/posts/{s?}/', function ($categorias_i
    }
 
    $data = array_merge($data, $model->paginate(15)->toArray());
+
+   $data['data'] = array_map(function($row) {
+      $row['image'] = [
+         'normal' => $row['image'] ? asset('storage/'.$row['image']) : null,
+         '80x80' => $row['image'] ? asset(sprintf('storage/80x80_%s', $row['image'])) : null
+      ];
+
+      return $row;
+
+   }, $data['data']);
 
    return $data;
 })->name('v1.categorias.posts');
