@@ -54,11 +54,11 @@ Route::get('/v1/post/{id}', function($id) {
 Route::get('/v1/posts/{s?}', function ($s=null) {
    $data = [];
 
-   $model = App\Post::select('*')->with('tags');
+   $model = App\Post::select('*')->with('tags')->orderBy('created_at', 'desc');
 
    if ( $s )
    {
-      $model->where('post_title', 'LIKE', '%'.$s.'%');
+      $model->where('post_title', 'LIKE', '%'.$s.'%')->orderBy('id', 'desc');
       $data['s'] = $s;
    }
 

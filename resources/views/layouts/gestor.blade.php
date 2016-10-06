@@ -61,9 +61,9 @@
          <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?= Auth::user()->name ?> <span class="caret"></span></a>
             <ul class="dropdown-menu">
-               <li><a href="#">Action</a></li>
-               <li><a href="#">Another action</a></li>
-               <li><a href="#">Something else here</a></li>
+               <li>
+                  <a href="<?= route('gestor.users.edit', ['id' => Auth::user()->id]) ?>">Editar Perfil</a>
+               </li>
                <li role="separator" class="divider"></li>
                <li>
                   <a href="<?= route('gestor.logout') ?>"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
