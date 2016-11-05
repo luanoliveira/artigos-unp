@@ -1,0 +1,47 @@
+<div class="row" style="background-color: #fff;padding-top:25px;">
+  <div class="col-md-9">
+    <header class="single-post-header clearfix">
+      <h2 class="post-title">{{detalhe.post_title}}</h2>
+    </header>
+    <article class="post-content">
+      <div class="post-meta meta-data">
+        <span><i class="fa fa-calendar"></i> {{detalhe.created_at}}</span>
+        <span><i class="fa fa-user"></i> Luan Oliveira</span>
+        <span><i class="fa fa-tag"></i> Categoria: <a href="#">{{detalhe.categorias_id}}</a></span>
+      </div>
+      <div class="featured-image">
+        <img src="{{detalhe.image.normal}}" ng-show="detalhe.image.normal">
+        <img src="http://placehold.it/600x400&amp;text=Imagem" ng-show="!detalhe.image.normal">
+      </div>
+      <p ng-bind-html="detalhe.post_content"></p>
+      <blockquote>
+        <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis egestas rhoncus.</p> -->
+      </blockquote>
+      <!-- <div class="post-meta"> <i class="fa fa-tags"></i> <a href="#">Sold</a>, <a href="#">Property</a> </div> -->
+    </article>
+  </div>
+  <!-- Start Sidebar -->
+  <div class="col-md-3 sidebar">
+    <div class="widget sidebar-widget search-form-widget">
+      <h3 class="widgettitle">Nova Pesquisa</h3>
+      <form class="form" onsubmit="busca()">
+        <div class="input-group input-group-lg">
+          <input type="text" class="form-control" placeholder="O que você procura?" id="argumento">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="submit"><i class="fa fa-search fa-lg"></i></button>
+          </span>
+        </div>
+      </form>
+    </div>
+    <div class="widget sidebar-widget">
+      <h3 class="widgettitle">Categorias</h3>
+      <ul>
+        <li ng-repeat="categoria in categorias.data"><a href="#">{{categoria.name}}</a> (10)</li>
+      </ul>
+    </div>
+    <div class="widget sidebar-widget">
+      <h3 class="widgettitle">Tags</h3>
+      <div class="tag-cloud"> <a href="#/tags/{{tag.id}}" ng-repeat="tag in tags.data">{{tag.name}}</a></div>
+    </div>
+  </div>
+</div>

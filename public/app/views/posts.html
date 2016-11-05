@@ -1,0 +1,58 @@
+<div class="row" style="background-color: #fff;padding-top:25px;">
+    <div class="col-md-9">
+        <div class="block-heading">
+            <a href="register.html" class="btn btn-sm btn-primary pull-right" ng-show="retorno.s">{{retorno.s}}</a>
+            <h4><span class="heading-icon"><i class="fa fa-search"></i></span>O que você busca:</h4>
+        </div>
+      <div class="agents-listing">
+          <ul>
+            <li class="col-md-12" ng-hide="retorno.data.length">Nenhum Registro encontrado</li>
+            <li class="col-md-12" ng-repeat="item in retorno.data">
+                <div class="col-md-4">
+                        <a href="#/detalhe/{{item.id}}" class="agent-featured-image">
+                          <img src="{{item.image.normal}}" ng-show="item.image.normal">
+                          <img src="http://placehold.it/600x400&amp;text=Imagem" ng-show="!item.image.normal">
+                        </a>
+                </div>
+                <div class="col-md-8">
+                        <div class="agent-info">
+                        <div class="counts"><strong>18</strong><span>Views</span></div>
+                        <h3 ng-bind-html="item.post_title"></h3>
+                        <p>{{item.post_content | limitTo: 150 | removeHTMLTags}}</p>
+                    </div>
+                    <div class="agent-contacts clearfix">
+                            <ul>
+                            <li><i class="fa fa-clock-o"></i> {{item.created_at}}</li>
+                        </ul>
+                    </div>
+                    </div>
+                </li>
+          </ul>
+      </div>
+        <ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" items-per-page="itensPerPage"></ul>
+    </div>
+    <!-- Start Sidebar -->
+    <div class="col-md-3 sidebar">
+      <div class="widget sidebar-widget search-form-widget">
+        <h3 class="widgettitle">Nova Pesquisa</h3>
+        <form class="form" onsubmit="busca()">
+          <div class="input-group input-group-lg">
+            <input type="text" class="form-control" placeholder="O que você procura?" id="argumento">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="submit"><i class="fa fa-search fa-lg"></i></button>
+            </span>
+          </div>
+        </form>
+      </div>
+      <div class="widget sidebar-widget">
+        <h3 class="widgettitle">Categorias</h3>
+        <ul>
+          <li ng-repeat="categoria in categorias.data"><a href="#">{{categoria.name}}</a> (10)</li>
+        </ul>
+      </div>
+      <div class="widget sidebar-widget">
+        <h3 class="widgettitle">Tags</h3>
+        <div class="tag-cloud"> <a href="#/tags/{{tag.id}}" ng-repeat="tag in tags.data">{{tag.name}}</a></div>
+      </div>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+<!-- container -->
+<style>
+  .ator {
+    background: url(app/public/images/atores.png);
+    background-repeat: no-repeat;
+    width: 755px;
+    height: 600px;
+    position: absolute;
+    right: 0;
+    top: -22px;
+    background-size: cover;
+  }
+</style>
+
+<div class="container-fluid pd-0 flex-cl h100">
+  <img src="app/public/images/elabora_m.png" style="width:400px;margin-bottom:30px;" />
+
+  <!-- row -->
+  <div class="flex-row h100 w100">
+
+    <div class="ator"></div>
+    <div class="row">
+      <h4 class="col-md-12" style="color: #3266af;font-weight:bold;font-size:19px;">
+        tudo que você sempre quis perguntar...
+      </h4>
+    </div>
+    <form class="form" onsubmit="busca()">
+      <div class="input-group input-group-lg"  style="width:40%;">
+          <input type="text" class="form-control" placeholder="O que você procura?" id="argumento">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="submit"><i class="fa fa-search fa-lg"></i></button>
+          </span>
+      </div>
+    </form>
+  </div><!-- /.row -->
+</div><!-- /.container -->
